@@ -9,8 +9,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created on 2019/12/10.
@@ -25,7 +29,9 @@ public class BridgeWebView extends WebView implements IWebView {
     private BridgeTiny bridgeTiny;
     private BridgeWebViewClient mClient;
     private BridgeWebviewChromeClient mChromeClient;
-    private Map<String, BridgeHandler> mLocalMessageHandlers = new HashMap<>();
+    private Map<String, BridgeHandler> mLocalMessageHandlers = new HashMap<>(512);
+    private Set<String> filterHandlerLog = new HashSet<>(128);
+
     public BridgeWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -54,8 +60,8 @@ public class BridgeWebView extends WebView implements IWebView {
             WebView.setWebContentsDebuggingEnabled(true);
         }
         bridgeTiny = new BridgeTiny(this);
-        mClient = new BridgeWebViewClient(this,bridgeTiny);
-        mChromeClient = new BridgeWebviewChromeClient(this,bridgeTiny);
+        mClient = new BridgeWebViewClient(this, bridgeTiny);
+        mChromeClient = new BridgeWebviewChromeClient(this, bridgeTiny);
         super.setWebViewClient(mClient);
         super.setWebChromeClient(mChromeClient);
     }
@@ -73,14 +79,25 @@ public class BridgeWebView extends WebView implements IWebView {
     }
 
     @Override
-    public void addHandlerLocal(String handlerName,BridgeHandler bridgeHandler) {
+    public void addHandlerLocal(String handlerName, BridgeHandler bridgeHandler) {
 
-        mLocalMessageHandlers.put(handlerName,bridgeHandler);
+        mLocalMessageHandlers.put(handlerName, bridgeHandler);
     }
+
+
+    public void addFilterHandler(Set<String> list) {
+        filterHandlerLog.addAll(list);
+    }
+
 
     @Override
     public Map<String, BridgeHandler> getLocalMessageHandlers() {
         return mLocalMessageHandlers;
+    }
+
+    @Override
+    public Set<String> getHandlerLogNames() {
+        return filterHandlerLog;
     }
 
     @Override
@@ -92,7 +109,7 @@ public class BridgeWebView extends WebView implements IWebView {
 
     @Override
     public void callHandler(String handlerName, Object data, OnBridgeCallback responseCallback) {
-        bridgeTiny.callHandler(handlerName,data,responseCallback);
+        bridgeTiny.callHandler(handlerName, data, responseCallback);
     }
 
 }

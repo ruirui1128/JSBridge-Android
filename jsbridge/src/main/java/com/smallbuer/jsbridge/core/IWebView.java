@@ -3,6 +3,7 @@ package com.smallbuer.jsbridge.core;
 import android.content.Context;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created on 2019/12/10.
@@ -11,21 +12,23 @@ import java.util.Map;
  */
 public interface IWebView {
 
-     void loadUrl(String url);
+    void loadUrl(String url);
 
-     void addHandlerLocal(String handlerName,BridgeHandler bridgeHandler);
+    void addHandlerLocal(String handlerName, BridgeHandler bridgeHandler);
 
-     Map<String, BridgeHandler> getLocalMessageHandlers();
+    Map<String, BridgeHandler> getLocalMessageHandlers();
 
-     void addJavascriptInterface(Object obj, String interfaceName);
+    Set<String> getHandlerLogNames();
 
-     void evaluateJavascript(String var1,Object object);
+    void addJavascriptInterface(Object obj, String interfaceName);
 
-     void callHandler(String handlerName, Object data, OnBridgeCallback responseCallback);
+    void evaluateJavascript(String var1, Object object);
 
-     void removeJavascriptInterface(String cmd);
+    void callHandler(String handlerName, Object data, OnBridgeCallback responseCallback);
+
+    void removeJavascriptInterface(String cmd);
 
 
-     Context getContext();
+    Context getContext();
 
 }

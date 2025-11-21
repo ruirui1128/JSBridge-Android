@@ -225,7 +225,7 @@ public class BridgeTiny {
         });
     }
 
-    public class CallBack implements CallBackFunction{
+    public class CallBack extends CallBackFunction{
         private String callbackId ;
         public CallBack(String callbackId){
             this.callbackId =  callbackId;

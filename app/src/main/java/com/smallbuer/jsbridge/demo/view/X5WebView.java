@@ -19,8 +19,10 @@ import com.tencent.smtt.sdk.WebSettings.LayoutAlgorithm;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created on 2019/12/10.
@@ -114,7 +116,12 @@ public class X5WebView extends WebView implements IWebView {
 		return mLocalMessageHandlers;
 	}
 
-	@Override
+    @Override
+    public Set<String> getHandlerLogNames() {
+        return Collections.emptySet();
+    }
+
+    @Override
 	public void evaluateJavascript(String var1,@Nullable Object object) {
 		if(object == null){
 			super.evaluateJavascript(var1, null);
