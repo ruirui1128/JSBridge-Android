@@ -44,7 +44,6 @@ public class BridgeJavascritInterface extends BaseJavascriptInterface {
                     bridgeHandler.handler(mWebView.getContext(), data, new CallBack(callbackId, ""));
                 } else {
                     bridgeHandler.handler(mWebView.getContext(), data, new CallBack(callbackId, handlerName));
-                    Log.d(handlerName, "handlerName:" + handlerName);
                 }
                 return;
             }
